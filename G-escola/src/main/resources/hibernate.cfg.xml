@@ -45,7 +45,7 @@ Contributor(s):
     <property name="hibernate.format_sql">true</property> 
     <property name="hibernate.dialect">org.hibernate.dialect.SQLiteDialect</property>
     <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
-    <property name="hibernate.connection.url">jdbc:sqlite://home/willian/Downloads/Telegram Desktop/POO/banco/banco.db</property>
+    <property name="hibernate.connection.url">jdbc:sqlite://home/willian/NetBeansProjects/G-escola/G-escola/banco/banco.db</property>
   <property name="connection.username"></property>
     <property name="connection.password"></property>
   <property name="hibernate.hbm2ddl.auto">update</property>
