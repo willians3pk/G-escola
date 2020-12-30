@@ -12,15 +12,16 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 public class CadastroProfessor extends javax.swing.JPanel {
-    
+
     boolean clique;
+
     public CadastroProfessor() {
         initComponents();
         Atualizar();
         clique = false;
     }
     ConexaoDAO bancoSQL = new ConexaoDAO();
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -355,12 +356,12 @@ public class CadastroProfessor extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void lblListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblListMouseClicked
-        if(clique){
+        if (clique) {
             lblList.setLocation(590, 150);
             panelList.setLocation(650, 40);
             //lblList.setText("Hide");
             clique = false;
-        }else if(clique == false){
+        } else if (clique == false) {
             lblList.setLocation(800, 150);
             panelList.setLocation(850, 40);
             //lblList.setText("Show");
@@ -424,10 +425,10 @@ public class CadastroProfessor extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void Atualizar() {
-        
+
         List<Professor> ListProfessores = bancoSQL.ListProfessor();         // Carrega as Disciplinas do Banco para uma Lista
         List<Disciplina> ListDisciplinas = bancoSQL.ListDisciplinas();      // Carrega os professores cadastrados para uma Lista
-        
+
         try {
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             for (Professor prof : ListProfessores) {
@@ -439,15 +440,15 @@ public class CadastroProfessor extends javax.swing.JPanel {
                 model2.addElement(disc.getNome());
                 jList1.setModel(model2);            // Atualiza a jList1 com disciplinas cadastradas no banco de dados
             }
-            
+
             int posicao = boxProfessor.getSelectedIndex();      // pega a posicao do professor na ComboBox
             Professor professor = ListProfessores.get(posicao); // pega o professor da ComboBox
-            
+
             for (Disciplina disc : professor.getDisciplina()) {
                 DefaultListModel model3 = new DefaultListModel();
                 model3.addElement(disc.getNome());
                 jList3.setModel(model3);                        // Atualiza a jList3 com Disciplinas Alocadas ao Professor
-                
+
                 for (int i = 0; i < disc.getTurma().size(); i++) {
                     DefaultListModel model4 = new DefaultListModel();
                     model4.addElement(disc.getTurma().get(i).getNome());
@@ -455,81 +456,80 @@ public class CadastroProfessor extends javax.swing.JPanel {
                 }
             }
             DefaultListModel model5 = new DefaultListModel();
-            for(Professor prof1 : bancoSQL.ListProfessor()){
+            for (Professor prof1 : bancoSQL.ListProfessor()) {
                 model5.addElement(prof1.getNome());
                 jlistProfessor.setModel(model5);                //Atualiza jlistProfessor com professores
             }
         } catch (Exception e) {
             System.out.println("Erro " + e);
         }
-        numeroProfessorCadastrado.setText("Professores Cadastrados: "+ ListProfessores.size());
+        numeroProfessorCadastrado.setText("Professores Cadastrados: " + ListProfessores.size());
 
     }
 
-    private void AlocarDisciplina(){
-        
+    private void AlocarDisciplina() {
+
         List<Professor> ListProfessores = bancoSQL.ListProfessor();
         List<Disciplina> ListDisciplinas = bancoSQL.ListDisciplinas();
-        
-        Professor   prof    = ListProfessores.get(boxProfessor.getSelectedIndex());
-        Disciplina  disc    = ListDisciplinas.get(jList1.getSelectedIndex());
+
+        Professor prof = ListProfessores.get(boxProfessor.getSelectedIndex());
+        Disciplina disc = ListDisciplinas.get(jList1.getSelectedIndex());
         prof.getDisciplina().add(disc);
         disc.setProfessor(prof);
-        
+
         bancoSQL.save_update(prof);
-        
-        
+
         for (Disciplina disci : prof.getDisciplina()) {
             DefaultListModel model = new DefaultListModel();
             model.addElement(disci.getNome());
             jList3.setModel(model);                 // Atualiza a jList2 com Turmas da Disciplina alocada
-            
+
             for (int i = 0; i < disci.getTurma().size(); i++) {
                 DefaultListModel model1 = new DefaultListModel();
                 model1.addElement(disci.getTurma().get(i).getNome());
                 jList2.setModel(model1);            // Atualiza a jList2 com Turmas da Disciplina alocada
-                
+
             }
         }
         disciplinasAlocadas();
         Atualizar();
     }
-    
-    public void disciplinasAlocadas(){
-        
+
+    public void disciplinasAlocadas() {
+
         List<Professor> listProfessor = null;
         listProfessor = bancoSQL.ListProfessor();
         Professor prof = listProfessor.get(boxProfessor.getSelectedIndex());
-        
+
         try {
             DefaultListModel model3 = new DefaultListModel();
-                for (int i = 0; i < prof.getDisciplina().size(); i++) {
-                    model3.addElement(prof.getDisciplina().get(i).getNome());
-                    jList3.setModel(model3);
-                }
-            
+            for (int i = 0; i < prof.getDisciplina().size(); i++) {
+                model3.addElement(prof.getDisciplina().get(i).getNome());
+                jList3.setModel(model3);
+            }
+
         } catch (Exception e) {
-            System.out.println("erro "+e);
+            System.out.println("erro " + e);
         }
     }
-    
-    private void Remover(){
-        
-        List <Professor> listProfessor = null;
-        List <Disciplina> listDisciplina = null;
-        
+
+    private void Remover() {
+
+        List<Professor> listProfessor = null;
+        List<Disciplina> listDisciplina = null;
+
         listProfessor = bancoSQL.ListProfessor();
         listDisciplina = bancoSQL.ListDisciplinas();
-        
+
         int posicao = jList3.getSelectedIndex();                                // Pega a posição da Disciplina na jList3
         Professor prof = listProfessor.get(boxProfessor.getSelectedIndex());    // Pega o Professor da ComboBox
         prof.getDisciplina().remove(prof.getDisciplina().get(posicao));         // Remove a disciplina da Lista de professor
-        
+
         bancoSQL.save_update(prof);
-        
+
         Atualizar();
     }
-    
+
     private void Limpar() {
         campRua.setText("");
         campBairro.setText("");

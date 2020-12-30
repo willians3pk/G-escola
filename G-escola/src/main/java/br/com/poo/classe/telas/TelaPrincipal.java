@@ -88,7 +88,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         labelEvent.setFont(new java.awt.Font("Arial", 0, 27)); // NOI18N
         labelEvent.setForeground(new java.awt.Color(255, 255, 255));
         labelEvent.setText("Error 404 - Not Found");
-        jPanel2.add(labelEvent, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 270, 40));
+        jPanel2.add(labelEvent, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 340, 40));
 
         jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 24)); // NOI18N
         jLabel4.setForeground(java.awt.Color.white);
@@ -368,7 +368,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 a.setSize(890, 530);
                 a.setVisible(true);
                 areaTrabalho.add(a);
-
 
             }
         };
